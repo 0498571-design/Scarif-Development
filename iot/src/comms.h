@@ -107,7 +107,8 @@ void mqttConnect()
             Serial.println("Connected to MQTT broker.");
             client.subscribe(mqttTopic);
             topicBuffer = "EventLog/" + String(mqttClient);
-            sendDataToServer("EventLog", String(mqttClient) + " is online and listening to Kanye.");
+            mqttTopic = topicBuffer.c_str();
+            sendDataToServer(mqttTopic, String(mqttClient) + " is online and listening to Kanye.");
         }
         else
         {
