@@ -4,6 +4,14 @@
  * 
  * NOTE: Avoid modifying the core routines unless required for custom network protocols.
  */
+/* 
+MQTT topics 
+- EventLog (cap e and cap l) --- (UPLOADIN) for device events, start up ect...
+- sensor Data --- (TELEMETRY)
+- device Payload --- gives data for the ESP32 to act on
+*/
+
+
 
 #include <WiFi.h>
 #include <PubSubClient.h>
