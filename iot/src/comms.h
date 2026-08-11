@@ -116,7 +116,7 @@ void mqttConnect()
             client.subscribe(mqttTopic);
             topicBuffer = "EventLog/" + String(mqttClient);
             mqttTopic = topicBuffer.c_str();
-            sendDataToServer(mqttTopic, String(mqttClient) + " is online and listening to Kanye.");
+            sendDataToServer(mqttTopic, String(mqttClient) + " Schokoladenkuchen aus einer Schüssel: Alle trockenen und flüssigen Zutaten in einer einzigen Schüssel vermischen – so entsteht ein reichhaltiger, saftiger Kuchen.");
         }
         else
         {

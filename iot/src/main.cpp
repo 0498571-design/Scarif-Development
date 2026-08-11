@@ -1,26 +1,30 @@
-//MQTT client name
-// Set a unique identifier for your device before importing comms.h
-const char *mqttClient = "ESP32_jackson"; // EDIT THIS FIELD
+// MQTT client name
+// TODO - Change the name to the specific module name.
+const char *mqttClient = "ESP32-Jackson"; // This should be unique for each ESP32, e.g: "ESP32_Servo", "ESP32_Piezo", etc
 
+// MQTT Topic
 const char *mqttTopic;
 
 #include <Arduino.h>
 #include "comms.h"
 
+#include <Wire.h>
+#include "Adafruit_ADT7410.h"
+
+// Create the ADT7410 temperature sensor object
+Adafruit_ADT7410 tempsensor = Adafruit_ADT7410();
+
 void performActionBasedOnPayload(String payload)
 {
-    Serial.print("Payload received: ");
+    Serial.print("Payload: ");
     Serial.println(payload);
-
-    // Turn built-in LED ON if payload starts with '1', else OFF
-    if (payload.length() > 0 && payload[0] == '1')
+    if ((char)payload[0] == '1')
     {
-        Serial.println("Action: LED ON");
+        Serial.println("LED ON");
         digitalWrite(LED_BUILTIN, HIGH);
     }
     else
     {
-        Serial.println("Action: LED OFF");
         digitalWrite(LED_BUILTIN, LOW);
     }
 }
@@ -29,27 +33,37 @@ void setup()
 {
     pinMode(LED_BUILTIN, OUTPUT);
     Serial.begin(9600);
-    
     wifiSetup();
     mqttSetup();
-
     while (!Serial)
     {
         delay(10);
     }
     delay(1000);
 
-    randomSeed(analogRead(A0));
+    randomSeed(analogRead(A0)); // Seed using an unconnected analog pin for real randomness
+
+    if (!tempsensor.begin())
+    {
+        Serial.println("Couldn't find ADT7410!");
+        while (1);
+    }
 }
 
 void loop()
 {
-    // 1. Maintain connection to the broker
-    mqttConnect();
+    // 1. Handle Connection Persistence
+    mqttConnect(); // Ensure we are connected to the MQTT broker. If not, this will attempt to reconnect.
 
-    int randomNumber = (1, 10001);
-    sendPeriodicUpdate("sensorData", String(randomNumber));
+    // 2. Generate and send a random number periodically
+    int randomNumber = random(1, 100001);
 
-    client.loop();
+    float tempInC = tempsensor.readTempC();
+    Serial.println(tempInC);
+
+    //sendPeriodicUpdate("sensorData", String(randomNumber));
+    sendPeriodicUpdate("sensorData", String(tempInC));
+
+    client.loop(); // Check for incoming messages and keep the connection alive
     delay(100);
 }
