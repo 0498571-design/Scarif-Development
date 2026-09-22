@@ -14,13 +14,13 @@ if (session_status() === PHP_SESSION_NONE) {
 function authorise(array $allowedRoles = []): void
 {
     // 1. Check if user is logged in
-    if (!isset($_SESSION['user_id'])) {
-        header('Location: login.php?error=unauthenticated');
-        exit();
-    }
+    //if (!isset($_SESSION['user_id'])) {
+        //header('Location: login.php?error=unauthenticated');
+      //  exit();
+    //}
 
     // 2. Fetch current user role from session (default to 'guest' if not set)
-    $userRole = $_SESSION['access_level'] ?? 'guest';
+    $userRole = $_SESSION['access_level'] ?? 'unauth';
 
     // 3. If allowedRoles is specified, verify user has access
     if (!empty($allowedRoles) && !in_array($userRole, $allowedRoles, true)) {
