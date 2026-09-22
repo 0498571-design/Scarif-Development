@@ -1,4 +1,10 @@
 <?php
+require_once 'auth.php';
+
+// Pass an array of all roles allowed to view this page
+authorise(['admin', 'staff', 'student', 'guest']);
+
+
 // Start output buffering and session management
 ob_start();
 if (session_status() === PHP_SESSION_NONE) {

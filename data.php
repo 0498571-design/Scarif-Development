@@ -1,4 +1,9 @@
 <?php
+require_once 'auth.php';
+
+// Pass an array of all roles allowed to view this page
+authorise(['admin', 'staff', 'student']);
+
 // Extrapolate environment configurations assigned via Docker Compose
 $host = getenv('DB_HOST') ?: 'localhost';
 $port = getenv('DB_PORT') ?: '3306';

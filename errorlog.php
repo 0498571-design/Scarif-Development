@@ -1,4 +1,9 @@
 <?php
+require_once 'auth.php';
+
+// Pass an array of all roles allowed to view this page
+authorise(['admin', 'staff']);
+
 // src/errorlog.php - Displays all records from the error_log table
 $host = getenv('DB_HOST') ?: '10.0.0.100';
 $port = getenv('DB_PORT') ?: '3306';
