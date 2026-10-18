@@ -141,6 +141,8 @@ try {
                                                         <i class="fas fa-check-circle me-2"></i>
                                                         <div>Welcome back, ' . htmlspecialchars($user['first_name']) . '! You logged in successfully.</div>
                                                       </div>';
+                                                    header("Location: index.php");
+                                                    $_SESSION['success_message'] = "Welcome back, " . htmlspecialchars($user['first_name']) . "!";
                                                 } else {
                                                     echo '<div class="alert alert-danger d-flex align-items-center">
                                                         <i class="fas fa-exclamation-triangle me-2"></i>
